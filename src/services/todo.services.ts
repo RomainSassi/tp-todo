@@ -26,7 +26,7 @@ export default class TodoService {
     };
   }
 
-  async createATodo(todo: Todo) {
+  async createATodo(todo: Todo): Promise<boolean> {
     const check = this.checkDataIsTodo(todo);
 
     if (!check) return false
@@ -38,7 +38,7 @@ export default class TodoService {
     return false
   }
 
-  async updateTodo(todo: Todo) {
+  async updateTodo(todo: Todo): Promise<boolean> {
     const check = this.checkDataIsTodo(todo);
 
     if (!check) return false
@@ -49,9 +49,10 @@ export default class TodoService {
     return false
   }
 
-  async deleteTodo(idTodo: string) {
+  async deleteTodo(idTodo: string): Promise<boolean> {
     const response = await this.#_todoPorts.deleteTodo(idTodo);
-    return response
+    if (response.statusText === "OK") return true
+    return false
   }
 
   checkDataIsTodo(data: any): data is Todo {

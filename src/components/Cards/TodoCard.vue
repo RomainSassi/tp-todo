@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card flex items-start shadow-md border dark:border-slate-900 rounded-md divide-x-2 min-h-[5rem] h-fit min-w-fit w-auto overflow-hidden bg-white dark:bg-slate-800 dark:shadow-lg"
+    class="card relative flex items-start shadow-md border dark:border-slate-900 rounded-md divide-x-2 min-h-[5rem] h-fit min-w-fit w-auto bg-white dark:bg-slate-800 dark:shadow-lg"
   >
     <div
       class="left w-1/5 md:w-1/12 flex justify-center items-center h-full cursor-pointer"
@@ -34,6 +34,14 @@
       </div>
       
     </div>
+    <div v-show="isEditionMode" @click="deleteTodo(todo)" class="delete cursor-pointer absolute -top-4 -right-4 rounded-full h-7 w-7 shadow bg-red-200 border-red-200">
+      <div class="relative w-full h-full flex justify-center items-center">
+        <span class="material-symbols-outlined relative z-30 text-white text-base">
+          remove
+        </span>
+        <span class="absolute top-0 left-0 z-10 w-full h-full motion-safe:animate-ping bg-red-200 border-red-200 rounded-full"></span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,8 +52,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { Todo } from "@/entities/todo";
 import Utils from "@/utils/utils";
-import { defineProps } from "vue";
+import { computed, defineProps } from "vue";
 import { useStore } from "vuex";
 const utils = new Utils();
 const store = useStore();
@@ -94,5 +103,13 @@ const colorCat = (cat: number) => {
   }
   return "#fff"
 }
+
+const deleteTodo = (todo: Todo) => {
+  store.dispatch('todoStore/deteleTodo', todo)
+}
+
+const isEditionMode = computed(() => {
+  return store.state.editionMode
+})
 
 </script>

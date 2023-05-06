@@ -36,6 +36,22 @@ export default {
             if (data !== false) {
                 commit('SET_ALL', data)
             }
+        }, 
+        async deteleCat(context: any, cat: Category) {
+            const categoryService = new CategoryService();
+            const response = await categoryService.deleteCat(cat.id)
+            if (response === true) {
+                context.dispatch('getAllCategory');
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${cat.label} supprimée !`,
+                    concern: "info"
+                }, {root: true})
+            } else {
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${cat.label} non supprimée !`,
+                    concern: "error"
+                }, {root: true})
+            }
         }
     },
 }

@@ -17,7 +17,8 @@ export default createStore({
       info: false,
       success: false
     },
-    todoSelected: {}
+    todoSelected: {},
+    editionMode: false
   },
   getters: {
   },
@@ -59,6 +60,9 @@ export default createStore({
     },
     SET_TODO_SELECTED(state: any, todo: Todo) {
       state.todoSelected = todo
+    },
+    TOGGLE_EDITION_MODE(state: any) {
+      state.editionMode = !state.editionMode
     }
   },
   actions: {

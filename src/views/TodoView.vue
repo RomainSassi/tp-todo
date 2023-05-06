@@ -53,13 +53,14 @@
       <span class="material-symbols-outlined text-4xl"> close </span>
     </router-link>
   </div>
-  <aside v-show="displayForm" class="bgaside absolute top-0 left-0 w-1/5 h-full backdrop-blur-sm z-40" @click="displayForm = false"></aside>
-  <aside
-    class="h-full absolute top-0 right-0 w-4/5 bg-slate-50 dark:bg-slate-700 z-40"
-    v-if="displayForm"
-  >
-    <UpdateTodoView @close="displayForm = false" />
-  </aside>
+  <transition name="slide-fade">
+    <aside
+      class=" absolute top-1/2 -translate-y-1/2 right-0 h-[90%] w-[95%] bg-slate-50 dark:bg-slate-700 z-40 shadow-lg rounded-l-xl"
+      v-if="displayForm"
+    >
+      <UpdateTodoView @close="displayForm = false" />
+    </aside>
+  </transition>
 </template>
 
 <script lang="ts">

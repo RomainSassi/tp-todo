@@ -77,6 +77,22 @@ export default {
                     concern: "error"
                 }, {root: true})
             }
+        },
+        async deteleTodo(context: any, todo: Todo) {
+            const todoService = new TodoService();
+            const response = await todoService.deleteTodo(todo.id)
+            if (response === true) {
+                context.dispatch('getAllTodo');
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${todo.title} supprimée !`,
+                    concern: "info"
+                }, {root: true})
+            } else {
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${todo.title} non supprimée !`,
+                    concern: "error"
+                }, {root: true})
+            }
         }
     },
 }

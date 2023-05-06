@@ -44,6 +44,7 @@
           "
         />
         <ToggleDark />
+        <ToggleEditionMode />
       </div>
     </section>
     <section
@@ -86,13 +87,26 @@
             :class="{
               'bg-[var(--custom-color)]': filterCategory == cat.id,
             }"
-            @click="selectCat(cat.id)"
             :style="{ '--custom-color': cat.color }"
           >
-            <span>
+            <span @click="selectCat(cat.id)" class="w-3/4 h-full">
               {{ cat.label }}
             </span>
-            <span class="w-10 h-3 rounded-full border-[var(--catleft-color)] bg-[var(--catleft-color)]" :style="{ '--catleft-color': cat.color }"></span>
+            <div class="right w-1/4 flex gap-2 items-center justify-end">
+              <div v-show="isEditionMode" class="edit-button relative bg-gray-200 border shadow rounded-full h-5 w-5 flex justify-center items-center cursor-pointer">
+                <span class="material-symbols-outlined text-sm relative z-30">
+                  edit
+                </span>
+                <span class="absolute top-0 left-0 z-10 w-full h-full motion-safe:animate-ping bg-gray-200 border rounded-full"></span>
+              </div>
+              <div @click="deleteCat(cat)" v-show="isEditionMode" class="delete-button relative bg-red-200 border shadow rounded-full h-5 w-5 flex justify-center items-center cursor-pointer">
+                <span class="material-symbols-outlined text-sm relative z-30">
+                  remove
+                </span>
+                <span class="absolute top-0 left-0 z-10 w-full h-full motion-safe:animate-ping bg-red-200 border rounded-full"></span>
+              </div>
+              <span class="w-10 h-3 rounded-full border-[var(--catleft-color)] bg-[var(--catleft-color)]" :style="{ '--catleft-color': cat.color }"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -182,7 +196,7 @@
       <aside
         v-show="displayAside"
         v-if="windowWidth >= 1280"
-        class="bgaside fixed top-0 left-0 w-full h-full backdrop-blur-sm bg-gray-400 backdrop-opacity-5 z-30"
+        class="bgaside fixed top-0 left-0 w-full h-full backdrop-blur-sm z-20"
         @click="displayAside = false"
       ></aside>
     </transition>
@@ -243,8 +257,10 @@ import { useRouter } from "vue-router";
 import TodoView from "./TodoView.vue";
 import ListCardsTodo from "@/components/Cards/ListCardsTodo.vue";
 import ToggleDark from "@/components/Buttons/ToggleDark.vue";
+import ToggleEditionMode from '@/components/Buttons/ToggleEditionMode.vue'
 import AddTodoView from "./AddTodoView.vue";
 import AddCatView from "./AddCatView.vue";
+import { Category } from "@/entities/category";
 
 const store = useStore();
 const router = useRouter();
@@ -355,6 +371,15 @@ const getCatsFromApi = () => {
   displayAddCat.value = false;
 };
 
+/** EDITION MODE */
+const isEditionMode = computed(() => {
+  return store.state.editionMode
+})
+
+const deleteCat = (cat: Category) => {
+  store.dispatch('categoryStore/deteleCat', cat)
+}
+
 /** HOOKS */
 onBeforeMount(() => {
   store.dispatch("todoStore/getAllTodo");
@@ -362,7 +387,7 @@ onBeforeMount(() => {
 });
 </script>
 
-<style scoped>
+<style>
 .slide-fade-enter-active,
 .fade-enter-active,
 .fade-leave-active {

@@ -21,7 +21,7 @@ export default class CategoryService {
     return category;
   }
 
-  async createACategory(cat: Category) {
+  async createACategory(cat: Category): Promise<boolean> {
     const check = this.checkDataIsCategory(cat)
     if (!check) return false
     const response = await this.#_categoryPorts.createCategory(cat)
@@ -31,7 +31,7 @@ export default class CategoryService {
     return false
   }
 
-  async updateCat(cat: Category) {
+  async updateCat(cat: Category): Promise<boolean> {
     const check = this.checkDataIsCategory(cat)
     if (!check) return false
 
@@ -40,8 +40,10 @@ export default class CategoryService {
     return false
   }
 
-  async deleteCat(idCat: string) {
-    return await this.#_categoryPorts.deleteCat(idCat);
+  async deleteCat(idCat: string): Promise<boolean> {
+    const response = await this.#_categoryPorts.deleteCat(idCat);
+    if (response.statusText == "OK") return true
+    return false
   }
 
   checkDataIsCategory(data: any): data is Category {

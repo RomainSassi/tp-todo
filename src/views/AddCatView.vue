@@ -98,24 +98,14 @@ const valideForm = async () => {
       }
     } else {
 
-      const catService = new CategoryService();
-      const response = await catService.createACategory(cat.value)
+      const response = await store.dispatch('categoryStore/addCat', cat.value)
   
       if (response === true) {
-        store.commit("SET_SNACKBAR_VALUE", {
-          text: "Catégorie créée avec succès",
-          concern: "success",
-        });
         if (window.innerWidth >= 1280) {
           emits('created');
         } else {
           router.push('/');
         }
-      } else {
-        store.commit("SET_SNACKBAR_VALUE", {
-          text: "Erreur lors de la création de la TO DO",
-          concern: "error",
-        });
       }
     }
 

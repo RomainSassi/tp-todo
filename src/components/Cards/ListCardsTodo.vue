@@ -13,7 +13,7 @@
         :todo="todo"
         :display-date="displayDate"
         @displayInfo="$emit('displayInfo', todo)"
-        @toggleCompleted="$emit('toggleCompleted', todo)"
+        @toggleCompleted="toggleCompleted(todo)"
       />
     </div>
     <div class="completed flex flex-col gap-3 w-full">
@@ -32,7 +32,7 @@
         :todo="todo"
         :display-date="displayDate"
         @displayInfo="$emit('displayInfo', todo)"
-        @toggleCompleted="$emit('toggleCompleted', todo)"
+        @toggleCompleted="toggleCompleted(todo)"
       />
     </div>
   </div>
@@ -48,10 +48,21 @@ export default {
 import { Todo } from "@/entities/todo";
 import TodoCard from "./TodoCard.vue";
 import { defineProps } from "vue";
+import { useStore } from "vuex";
+const store = useStore()
 
 const props = defineProps<{
   todoUncompleted: Todo[];
   todoCompleted: Todo[];
   displayDate: boolean
 }>();
+
+const toggleCompleted = (todo: Todo) => {
+  console.log('completed');
+  
+  store.dispatch("todoStore/updateTodo", {
+    todo: todo,
+    completed: true,
+  });
+};
 </script>

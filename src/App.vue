@@ -1,7 +1,7 @@
 <template>
   <main class="bg-white dark:bg-slate-700 h-full relative w-full box-border flex flex-col">
     <router-view/>
-    <div class="container-snackbar cursor-pointer top-10 xl:bottom-10 xl:top-auto right-5 fixed min-h-[3rem] min-w-[50%] md:min-w-fit h-fit w-fit">
+    <div class="container-snackbar cursor-pointer top-10 xl:bottom-10 xl:top-auto right-5 fixed min-h-[3rem] min-w-[50%] md:min-w-fit h-fit w-fit z-50">
       <SnackbarValidation @click="resetSnackbar" v-show="isValidationSnack" :text="textSnackbar"/>
       <SnackbarInformation @click="resetSnackbar" v-show="isInfoSnack" :text="textSnackbar" />
       <SnackbarError @click="resetSnackbar" v-show="isErrorSnack" :text="textSnackbar" />

@@ -58,7 +58,7 @@
       class=" absolute top-1/2 -translate-y-1/2 right-0 h-[90%] w-[95%] bg-slate-50 dark:bg-slate-700 z-40 shadow-lg rounded-l-xl"
       v-if="displayForm"
     >
-      <UpdateTodoView @close="displayForm = false" />
+      <UpdateTodoView v-if="displayForm" @close="displayForm = false" />
     </aside>
   </transition>
 </template>

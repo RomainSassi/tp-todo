@@ -41,6 +41,24 @@ export default {
                 commit('SET_ALL', data)
             }
         },
+        async addCat(context: any, payload: Category) {
+            const catService = new CategoryService();
+            const response = await catService.createACategory(payload)
+            if (response === true) {
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${payload.label} créée avec succès!`,
+                    concern: "info"
+                }, {root: true})
+                context.dispatch('getAllCategory')
+                return true
+            } else {
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `Erreur lors de la création de la catégorie`,
+                    concern: "error"
+                }, {root: true})
+            }
+            return false
+        },
         async updateCat(context: any, payload: Category) {
             const categoryService = new CategoryService();
             const response = await categoryService.updateCat(payload)

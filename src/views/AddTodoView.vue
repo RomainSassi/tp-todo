@@ -41,6 +41,7 @@
         />
         <SelectComponent v-if="categoryData" v-model:value="todo.category" label="Catégorie" placeholder="Sélectionner une catégorie" :options="categoryData" />
         <div class="action-form hidden xl:flex justify-end">
+          <NavigationButton @click="displayForm = true" button-text="Créer une catégorie"/>
           <ValidationButton @click="valideForm" button-text="Créer la todo" />
         </div>
       </form>
@@ -57,6 +58,14 @@
     >
       <span class="material-symbols-outlined text-4xl"> close </span>
     </router-link>
+    <transition name="slide-fade">
+      <aside
+        class="fixed top-1/2 -translate-y-1/2 right-0 h-[90%] w-[95%] bg-slate-50 dark:bg-slate-700 z-40 shadow-lg rounded-l-xl"
+        v-if="displayForm"
+      >
+        <AddCatView v-if="displayForm" @close="displayForm = false" @created="displayForm = false"/>
+      </aside>
+    </transition>
   </div>
 </template>
 
@@ -73,6 +82,7 @@ import { Todo } from "@/entities/todo";
 import TodoService from "@/services/todo.services";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import AddCatView from "./AddCatView.vue";
 const store = useStore();
 const router = useRouter();
 const emits = defineEmits(['close', 'created']);
@@ -91,6 +101,7 @@ const todo: Ref<Todo> = ref({
 
 const validTitle = ref(true);
 const validDate = ref(true);
+const displayForm = ref(false);
 
 const valideForm = async () => {
   if (todo.value.title && todo.value.endDateTime) {

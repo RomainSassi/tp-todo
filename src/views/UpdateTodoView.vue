@@ -61,13 +61,16 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, defineEmits } from "vue";
 import type { Ref } from "vue";
 import { Todo } from "@/entities/todo";
 import { useStore } from "vuex";
 import Utils from '@/utils/utils';
+import { useRouter } from 'vue-router';
 const store = useStore();
 const utils = new Utils();
+const router = useRouter();
+const emits = defineEmits(['close'])
 
 const todo: Ref<Todo> = ref(store.state.todoSelected);
 const todoEndTime = ref(utils.formatDate(new Date(store.state.todoSelected.endDateTime),"-","en"))
@@ -96,6 +99,11 @@ const valideForm = async () => {
       todo: todoToSend,
       completed: false,
     });
+    if (window.innerWidth >= 1280) {
+          emits('close');
+        } else {
+          router.push('/todo');
+        }
   } else {
     if (todo.value.endDateTime) {
       validDate.value = true;

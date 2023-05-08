@@ -60,7 +60,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, onBeforeMount, computed, onBeforeUnmount } from "vue";
 import type { Ref } from "vue";
 import { Category } from "@/entities/category";
 import CategoryService from '@/services/category.services';
@@ -68,7 +68,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter();
-const emits = defineEmits(['close', 'created']);
+const emits = defineEmits(['close', 'created', 'updated']);
 
 const cat: Ref<Category> = ref({
   id: "",
@@ -86,24 +86,37 @@ const valideForm = async () => {
     validColor.value = true;
     validLabel.value = true;
 
-    const catService = new CategoryService();
-    const response = await catService.createACategory(cat.value)
-
-    if (response === true) {
-      store.commit("SET_SNACKBAR_VALUE", {
-        text: "Catégorie créée avec succès",
-        concern: "success",
-      });
-      if (window.innerWidth >= 1280) {
-        emits('created');
-      } else {
-        router.push('/');
+    
+    if (selectedCat.value.id) {
+      const response = await store.dispatch('categoryStore/updateCat', cat.value)
+      if (response === true) {
+        if (window.innerWidth >= 1280) {
+          emits('updated');
+        } else {
+          router.push('/');
+        }
       }
     } else {
-      store.commit("SET_SNACKBAR_VALUE", {
-        text: "Erreur lors de la création de la TO DO",
-        concern: "error",
-      });
+
+      const catService = new CategoryService();
+      const response = await catService.createACategory(cat.value)
+  
+      if (response === true) {
+        store.commit("SET_SNACKBAR_VALUE", {
+          text: "Catégorie créée avec succès",
+          concern: "success",
+        });
+        if (window.innerWidth >= 1280) {
+          emits('created');
+        } else {
+          router.push('/');
+        }
+      } else {
+        store.commit("SET_SNACKBAR_VALUE", {
+          text: "Erreur lors de la création de la TO DO",
+          concern: "error",
+        });
+      }
     }
 
   } else {
@@ -119,4 +132,19 @@ const valideForm = async () => {
     }
   }
 };
+
+const selectedCat = computed(() => {
+  return store.state.categoryStore.selectedCat
+})
+
+onBeforeMount(() => {
+  if (selectedCat.value.id) {
+    cat.value = selectedCat.value
+  }
+})
+onBeforeUnmount(() => {
+  if (selectedCat.value.id) {
+    store.commit('categoryStore/SET_SELECTED_CAT', {});
+  }
+})
 </script>

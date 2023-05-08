@@ -5,7 +5,8 @@ import CategoryService from "@/services/category.services"
 export default {
     namespaced: true,
     state: {
-        allCategory: []
+        allCategory: [],
+        selectedCat: {}
     },
     getters: {
         allCategory: (state: any) => state.allCategory,
@@ -27,6 +28,9 @@ export default {
             if (index !== -1) {
                 state.allCategory[index] = payload
             }
+        },
+        SET_SELECTED_CAT(state: any, cat: Category) {
+            state.selectedCat = cat
         }
     },
     actions: {
@@ -36,7 +40,26 @@ export default {
             if (data !== false) {
                 commit('SET_ALL', data)
             }
-        }, 
+        },
+        async updateCat(context: any, payload: Category) {
+            const categoryService = new CategoryService();
+            const response = await categoryService.updateCat(payload)
+
+            if (response === true) {
+                context.commit('SET_UPDATE', payload, {root: false})
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${payload.label} mis à jour !`,
+                    concern: "info"
+                }, {root: true})
+                return true
+            } else {
+                context.commit('SET_SNACKBAR_VALUE', {
+                    text: `${payload.label} non mis à jour !`,
+                    concern: "error"
+                }, {root: true})
+            }
+            return false
+        },
         async deteleCat(context: any, cat: Category) {
             const categoryService = new CategoryService();
             const response = await categoryService.deleteCat(cat.id)

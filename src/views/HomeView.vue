@@ -93,7 +93,7 @@
               {{ cat.label }}
             </span>
             <div class="right w-1/4 flex gap-2 items-center justify-end">
-              <div v-show="isEditionMode" class="edit-button relative bg-gray-200 border shadow rounded-full h-5 w-5 flex justify-center items-center cursor-pointer">
+              <div v-show="isEditionMode" @click="editCat(cat)" class="edit-button relative bg-gray-200 border shadow rounded-full h-5 w-5 flex justify-center items-center cursor-pointer">
                 <span class="material-symbols-outlined text-sm relative z-30">
                   edit
                 </span>
@@ -229,6 +229,7 @@
               displayAddCat = false;
             "
             @created="getCatsFromApi(); displayAddCat = false"
+            @updated="displayAddCat = false; displayAside = false"
           />
         </div>
       </aside>
@@ -375,7 +376,11 @@ const getCatsFromApi = () => {
 const isEditionMode = computed(() => {
   return store.state.editionMode
 })
-
+const editCat = (cat: Category) => {
+  store.commit('categoryStore/SET_SELECTED_CAT', cat)
+  displayAddCat.value = true;
+  displayAside.value = true;
+}
 const deleteCat = (cat: Category) => {
   store.dispatch('categoryStore/deteleCat', cat)
 }

@@ -6,7 +6,7 @@
     }"
     :style="{ '--custom-color': cat.color }"
   >
-    <span @click="$emit('select', cat.id)" class="w-3/4 h-full">
+    <span @click="$emit('select', cat.id)" class="w-3/4 h-full" :class="{'mix-blend-difference' : filterCategory == cat.id}">
       {{ cat.label }}
     </span>
     <div class="right w-1/4 flex gap-2 items-center justify-end">

@@ -21,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'update-todo',
     component: () => import( '../views/UpdateTodoView.vue')
   },
+  {
+    path: '/category/add',
+    name: 'add-category',
+    component: () => import( '../views/AddCatView.vue')
+  },
 ]
 
 const router = createRouter({

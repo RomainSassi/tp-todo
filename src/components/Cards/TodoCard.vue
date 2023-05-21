@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card relative flex items-start shadow-md border dark:border-slate-900 rounded-md divide-x-2 min-h-[5rem] h-fit min-w-fit w-auto bg-white dark:bg-slate-800 dark:shadow-lg"
+    class="card relative flex items-start shadow-md border dark:border-slate-900 rounded-md divide-x-2 min-h-[5rem] h-fit max-h-32 min-w-fit w-auto bg-white dark:bg-slate-800 dark:shadow-lg"
   >
     <div
       class="left w-1/5 md:w-1/12 flex justify-center items-center h-full cursor-pointer"
@@ -14,14 +14,14 @@
       </span>
     </div>
     <div
-      class="right flex flex-col justify-start h-full w-4/5 md:w-11/12 py-2 px-4 cursor-pointer"
+      class="right flex flex-col justify-start h-full overflow-hidden w-4/5 md:w-11/12 py-2 px-4 cursor-pointer"
       @click="$emit('displayInfo')"
     >
       <div class="flex items-start justify-between">
         <div class="left-elements flex flex-col items-start w-4/5">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white md:text-xl">{{ todo.title }}</h2>
           <span class="text-gray-700 dark:text-white text-xs italic">Créée le {{ formatDate(todo.createdAt) }}</span>
-          <p class="text-gray-700 dark:text-white text-sm">
+          <p class="text-gray-700 dark:text-white text-sm ">
             {{ todo.content }}
           </p>
         </div>

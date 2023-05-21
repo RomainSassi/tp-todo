@@ -40,9 +40,9 @@
           v-model:value="todo.location"
         />
         <SelectComponent v-if="categoryData" v-model:value="todo.category" label="Catégorie" placeholder="Sélectionner une catégorie" :options="categoryData" />
-        <div class="action-form hidden xl:flex justify-end">
-          <NavigationButton @click="displayForm = true" button-text="Créer une catégorie"/>
-          <ValidationButton @click="valideForm" button-text="Créer la todo" />
+        <div class="action-form flex justify-end">
+          <NavigationButton @click="addCatForm" button-text="Créer une catégorie"/>
+          <ValidationButton class="hidden xl:block" @click="valideForm" button-text="Créer la todo" />
         </div>
       </form>
     </section>
@@ -151,6 +151,14 @@ const valideForm = async () => {
     }
   }
 };
+
+const addCatForm = () => {
+  if (window.innerWidth >= 1280) {
+    displayForm.value = true
+  } else {
+    router.push('/category/add');
+  }
+}
 
 const categoryData = computed(() => {
   return store.state.categoryStore.allCategory;

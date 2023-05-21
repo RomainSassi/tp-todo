@@ -22,7 +22,7 @@ v16.18.0
 - VueJs 3 👨🏽‍💻
 - Tailwind CSS 💄
 - Vuex 📥
-- Axios 📲
+- Axios 🛰
 
 ## Concept
 
@@ -30,7 +30,7 @@ v16.18.0
 - 📅 Tri par date avec celle d'aujourd'hui, demain, cette semaine.
 - 🔖 Possibilité d'avoir des To Do marqués permettant de faire ressortir les éléments importants.
 - 🗺 Intégration d'une localisation possible avec ouverture sur Gmaps si besoin.
-
+- 📲 Progressive Web Application !
 
 
 ## Authors

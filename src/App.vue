@@ -43,7 +43,6 @@ const isInfoSnack: Ref<boolean> = computed(() => {
 watch([isValidationSnack, isErrorSnack, isWarningSnack, isInfoSnack], ([newValueValid, newValueError, newValueWarn, newValueInfo ]) => {
   if ((newValueValid || newValueError || newValueWarn || newValueInfo ) === true) {    
     setTimeout(() => {
-      console.log('closing');
       resetSnackbar();
     }, 3000)
   }

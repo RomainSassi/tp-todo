@@ -43,9 +43,7 @@ const valueInput: WritableComputedRef<string> = computed({
   get(): string {
     return props.value ?? "";
   },
-  set(newValue: string) {
-    console.log(newValue);
-    
+  set(newValue: string) {    
     emits("update:value", newValue);
   },
 });

@@ -57,7 +57,6 @@ const valueInput: WritableComputedRef<number> = computed({
     return props.value ?? -1;
   },
   set(newValue: number) {
-    console.log(newValue);
     emits("update:value", newValue);
   },
 });

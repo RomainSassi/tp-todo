@@ -80,8 +80,7 @@ const validLabel = ref(true);
 const validColor = ref(true);
 
 const valideForm = async () => {
-    console.log(cat.value);
-    
+
   if (cat.value.label && cat.value.color) {
     validColor.value = true;
     validLabel.value = true;

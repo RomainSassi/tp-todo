@@ -58,8 +58,6 @@ const props = defineProps<{
 }>();
 
 const toggleCompleted = (todo: Todo) => {
-  console.log('completed');
-  
   store.dispatch("todoStore/updateTodo", {
     todo: todo,
     completed: true,
